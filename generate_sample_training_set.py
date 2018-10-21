@@ -131,7 +131,7 @@ def get_sample_data():
     median_salaries = pd.read_csv('median_entry_salary_by_degree.csv')
     median_salaries = median_salaries[['university', 'degree', 'median_entry_salary']]
     simulated_training_data = generate_example(median_salaries)
-    simulated_training_data.to_csv('simulated_training_data.csv')
+    simulated_training_data.to_csv('simulated_training_data.csv', index=False)
     return simulated_training_data
 
 

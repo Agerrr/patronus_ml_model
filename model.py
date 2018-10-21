@@ -30,16 +30,46 @@
 
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 if __name__ == '__main__':
     data = pd.read_csv('simulated_training_data.csv')
 
+    # Need to limit to 10k otherwise it takes too long to train
+    data = data.sample(10000)
+    data.reset_index(inplace=True, drop=True)
 
-rf = RandomForestRegressor()
-rf.fit(train_features, train_price)
-predictions = rf.predict(test_features)
-print(r2_score(test_price, predictions))
+    # TODO: get dummies for uni names
+
+    actuals = np.array(data['entry_salary'])
+
+    features = data.drop('entry_salary', axis=1)
+    features = pd.get_dummies(features)
+    feature_list = list(features.columns)
+    features = np.array(features)
+
+    train_features, test_features, train_labels, test_labels = train_test_split(features, actuals, test_size=0.33,
+                                                                                random_state=42)
+    rf = RandomForestRegressor(n_estimators=1000, random_state=42)
+    rf.fit(train_features, train_labels)
+
+    predictions = rf.predict(test_features)
+    errors = abs(predictions - test_labels)
+    print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
+
+    mape = 100 * (errors / test_labels)
+    accuracy = 100 - np.mean(mape)
+    print('Accuracy:', round(accuracy, 2), '%.')
+
+    importances = list(rf.feature_importances_)
+    feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(feature_list, importances)]
+    feature_importances = sorted(feature_importances, key=lambda x: x[1], reverse=True)
+
+    for pair in feature_importances:
+        print('Variable: {:20} Importance: {}'.format(*pair))
+
+
 
 
 
