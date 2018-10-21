@@ -48,7 +48,10 @@ if __name__ == '__main__':
 
     features = data.drop('entry_salary', axis=1)
     features = pd.get_dummies(features)
-    feature_list = list(features.columns)
+
+    feature_list = sorted(list(features.columns))
+    print(feature_list)
+    features = features[feature_list]
     features = np.array(features)
 
     train_features, test_features, train_labels, test_labels = train_test_split(features, actuals, test_size=0.33,
