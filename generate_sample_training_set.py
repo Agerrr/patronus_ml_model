@@ -52,17 +52,18 @@ def generate_sample_entry_salary(median_salary):
 
 
 def generate_random_feature(range, num_features, p):
-    numpy.random.seed(int(time.time()))
-    return numpy.random.choice(range, num_features, p)[0]
+    return numpy.random.choice(range, num_features, p)
 
 
 def generate_example(median_salary_data):
+    random.seed(datetime.now())
+    numpy.random.seed(int(time.time()))
 
     # For each university / degree example generate a random number of rows with simulated data:
     simulated_data = []
     for index, row in median_salary_data.iterrows():
-        random.seed(datetime.now())
-        num_examples_per_uni_degree = random.randint(1, 100)
+        # random.seed(datetime.now())
+        num_examples_per_uni_degree = random.randint(1, 101)
         print("Generate %s examples for uni %s and degree %s" % (num_examples_per_uni_degree, row['university'], row['degree']))
         for i in range(num_examples_per_uni_degree):
             example = defaultdict()
@@ -71,53 +72,53 @@ def generate_example(median_salary_data):
             example['median_entry_salary'] = row['median_entry_salary']
             example['entry_salary'] = generate_sample_entry_salary(row['median_entry_salary'])
 
-            numpy.random.seed(int(time.time()))
+            # numpy.random.seed(int(time.time()))
 
             # Simulate the chance of being a gold/silver/brown medal winner of an international olympiad (e.g. in Math)
             # TODO: Simulate that for all possible subjects
             # TODO: Use a count feature, rather than a boolean (e.g. count the number of gold medals in x olympiad of y type)
-            example['is_gold_medals_in_international_olympiads'] = numpy.random.choice(2, 1, p=[0.9999, 0.0001])[0]
-            example['is_silver_medals_in_international_olympiads'] = numpy.random.choice(2, 1, p=[0.9998, 0.0002])[0]
-            example['is_brown_medals_in_international_olympiads'] = numpy.random.choice(2, 1, p=[0.9997, 0.0003])[0]
-            example['is_finals_in_international_olympiads'] = numpy.random.choice(2, 1, p=[0.9995, 0.0005])[0]
+            example['is_gold_medals_in_international_olympiads'] = generate_random_feature(2, 1, p=[0.9999, 0.0001])[0]
+            example['is_silver_medals_in_international_olympiads'] = generate_random_feature(2, 1, p=[0.9998, 0.0002])[0]
+            example['is_brown_medals_in_international_olympiads'] = generate_random_feature(2, 1, p=[0.9997, 0.0003])[0]
+            example['is_finals_in_international_olympiads'] = generate_random_feature(2, 1, p=[0.9995, 0.0005])[0]
 
-            example['is_gold_medals_in_national_olympiads'] = numpy.random.choice(2, 1, p=[0.999, 0.001])[0]
-            example['is_silver_medals_in_national_olympiads'] = numpy.random.choice(2, 1, p=[0.998, 0.002])[0]
-            example['is_brown_medals_in_national_olympiads'] = numpy.random.choice(2, 1, p=[0.997, 0.003])[0]
-            example['is_finals_in_national_olympiads'] = numpy.random.choice(2, 1, p=[0.995, 0.005])[0]
+            example['is_gold_medals_in_national_olympiads'] = generate_random_feature(2, 1, p=[0.999, 0.001])[0]
+            example['is_silver_medals_in_national_olympiads'] = generate_random_feature(2, 1, p=[0.998, 0.002])[0]
+            example['is_brown_medals_in_national_olympiads'] = generate_random_feature(2, 1, p=[0.997, 0.003])[0]
+            example['is_finals_in_national_olympiads'] = generate_random_feature(2, 1, p=[0.995, 0.005])[0]
 
-            example['num_of_gold_medals_in_regional_olympiads'] = numpy.random.choice(2, 1, p=[0.99, 0.01])[0]
-            example['num_of_silver_medals_in_regional_olympiads'] = numpy.random.choice(2, 1, p=[0.98, 0.02])[0]
-            example['num_of_brown_medals_in_regional_olympiads'] = numpy.random.choice(2, 1, p=[0.97, 0.03])[0]
-            example['num_of_finals_in_regional_olympiads'] = numpy.random.choice(2, 1, p=[0.95, 0.05])[0]
+            example['num_of_gold_medals_in_regional_olympiads'] = generate_random_feature(2, 1, p=[0.99, 0.01])[0]
+            example['num_of_silver_medals_in_regional_olympiads'] = generate_random_feature(2, 1, p=[0.98, 0.02])[0]
+            example['num_of_brown_medals_in_regional_olympiads'] = generate_random_feature(2, 1, p=[0.97, 0.03])[0]
+            example['num_of_finals_in_regional_olympiads'] = generate_random_feature(2, 1, p=[0.95, 0.05])[0]
 
-            example['is_gold_medal_winner_in_international_sports_competition'] = numpy.random.choice(2, 1, p=[0.9999, 0.0001])[0]
-            example['is_silver_medals_in_international_sports_competition'] = numpy.random.choice(2, 1, p=[0.9998, 0.0002])[0]
-            example['is_brown_medals_in_international_sports_competition'] = numpy.random.choice(2, 1, p=[0.9997, 0.0003])[0]
-            example['is_finals_in_international_sports_competition'] = numpy.random.choice(2, 1, p=[0.9995, 0.0005])[0]
+            example['is_gold_medal_winner_in_international_sports_competition'] = generate_random_feature(2, 1, p=[0.9999, 0.0001])[0]
+            example['is_silver_medals_in_international_sports_competition'] = generate_random_feature(2, 1, p=[0.9998, 0.0002])[0]
+            example['is_brown_medals_in_international_sports_competition'] = generate_random_feature(2, 1, p=[0.9997, 0.0003])[0]
+            example['is_finals_in_international_sports_competition'] = generate_random_feature(2, 1, p=[0.9995, 0.0005])[0]
 
-            example['is_gold_medals_in_national_sports_competition'] = numpy.random.choice(2, 1, p=[0.999, 0.001])[0]
-            example['is_silver_medals_in_national_sports_competition'] = numpy.random.choice(2, 1, p=[0.998, 0.002])[0]
-            example['is_brown_medals_in_national_sports_competition'] = numpy.random.choice(2, 1, p=[0.997, 0.003])[0]
-            example['is_finals_in_national_sports_competition'] = numpy.random.choice(2, 1, p=[0.995, 0.005])[0]
+            example['is_gold_medals_in_national_sports_competition'] = generate_random_feature(2, 1, p=[0.999, 0.001])[0]
+            example['is_silver_medals_in_national_sports_competition'] = generate_random_feature(2, 1, p=[0.998, 0.002])[0]
+            example['is_brown_medals_in_national_sports_competition'] = generate_random_feature(2, 1, p=[0.997, 0.003])[0]
+            example['is_finals_in_national_sports_competition'] = generate_random_feature(2, 1, p=[0.995, 0.005])[0]
 
-            example['num_of_gold_medals_in_regional_sports_competition'] = numpy.random.choice(2, 1, p=[0.99, 0.01])[0]
-            example['num_of_silver_medals_in_regional_sports_competition'] = numpy.random.choice(2, 1, p=[0.98, 0.02])[0]
-            example['num_of_brown_medals_in_regional_sports_competition'] = numpy.random.choice(2, 1, p=[0.97, 0.03])[0]
-            example['num_of_finals_in_regional_sports_competition'] = numpy.random.choice(2, 1, p=[0.95, 0.05])[0]
+            example['num_of_gold_medals_in_regional_sports_competition'] = generate_random_feature(2, 1, p=[0.99, 0.01])[0]
+            example['num_of_silver_medals_in_regional_sports_competition'] = generate_random_feature(2, 1, p=[0.98, 0.02])[0]
+            example['num_of_brown_medals_in_regional_sports_competition'] = generate_random_feature(2, 1, p=[0.97, 0.03])[0]
+            example['num_of_finals_in_regional_sports_competition'] = generate_random_feature(2, 1, p=[0.95, 0.05])[0]
 
-            example['num_years_high_school_president'] = numpy.random.choice(4, 1, p=[0.88, 0.06, 0.03, 0.03])[0]
-            example['num_years_high_school_class_president'] = numpy.random.choice(4, 1, p=[0.60, 0.20, 0.10, 0.10])[0]
+            example['num_years_high_school_president'] = generate_random_feature(4, 1, p=[0.88, 0.06, 0.03, 0.03])[0]
+            example['num_years_high_school_class_president'] = generate_random_feature(4, 1, p=[0.60, 0.20, 0.10, 0.10])[0]
 
-            example['is_fluent_in_english'] = numpy.random.choice(2, 1, p=[0.80, 0.20])[0]
-            example['is_fluent_in_spanish'] = numpy.random.choice(2, 1, p=[0.85, 0.15])[0]
-            example['is_fluent_in_german'] = numpy.random.choice(2, 1, p=[0.92, 0.08])[0]
-            example['is_fluent_in_chinese'] = numpy.random.choice(2, 1, p=[0.85, 0.15])[0]
-            example['is_fluent_in_french'] = numpy.random.choice(2, 1, p=[0.95, 0.05])[0]
+            example['is_fluent_in_english'] = generate_random_feature(2, 1, p=[0.80, 0.20])[0]
+            example['is_fluent_in_spanish'] = generate_random_feature(2, 1, p=[0.85, 0.15])[0]
+            example['is_fluent_in_german'] = generate_random_feature(2, 1, p=[0.92, 0.08])[0]
+            example['is_fluent_in_chinese'] = generate_random_feature(2, 1, p=[0.85, 0.15])[0]
+            example['is_fluent_in_french'] = generate_random_feature(2, 1, p=[0.95, 0.05])[0]
 
-            example['num_papers_published'] = numpy.random.choice(4, 1, p=[0.96, 0.02, 0.01, 0.01])[0]
+            example['num_papers_published'] = generate_random_feature(4, 1, p=[0.96, 0.02, 0.01, 0.01])[0]
 
-            example['num_months_of_work_experience'] = numpy.random.choice(10, 1, p=[0.05, 0.20, 0.20, 0.15,
+            example['num_months_of_work_experience'] = generate_random_feature(10, 1, p=[0.05, 0.20, 0.20, 0.15,
                                                                                      0.10, 0.10, 0.07, 0.07, 0.03, 0.03])
             example_df = pd.DataFrame(example, index=[0])
             simulated_data.append(example_df)
