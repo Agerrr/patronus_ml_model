@@ -32,6 +32,9 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
 
+if __name__ == '__main__':
+    data = pd.read_csv('simulated_training_data.csv')
+
 
 rf = RandomForestRegressor()
 rf.fit(train_features, train_price)
