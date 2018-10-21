@@ -32,6 +32,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.externals import joblib
+
 
 if __name__ == '__main__':
     data = pd.read_csv('simulated_training_data.csv')
@@ -52,8 +54,10 @@ if __name__ == '__main__':
     train_features, test_features, train_labels, test_labels = train_test_split(features, actuals, test_size=0.33,
                                                                                 random_state=42)
     rf = RandomForestRegressor(n_estimators=1000, random_state=42)
+    print("Training the model")
     rf.fit(train_features, train_labels)
 
+    print("Predicting given test data")
     predictions = rf.predict(test_features)
     errors = abs(predictions - test_labels)
     print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
@@ -66,8 +70,15 @@ if __name__ == '__main__':
     feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(feature_list, importances)]
     feature_importances = sorted(feature_importances, key=lambda x: x[1], reverse=True)
 
+    # Ofc every feature except for the median entry salary will have a zero or super low importance because
+    # they were semi-randomly generated. We can hopefully learn something more useful from real data ;)
     for pair in feature_importances:
         print('Variable: {:20} Importance: {}'.format(*pair))
+
+    joblib.dump(rf, 'trained_random_forest.joblib')
+
+
+
 
 
 
