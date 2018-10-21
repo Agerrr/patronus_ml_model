@@ -73,4 +73,14 @@ def get_median_salary_by_uni_degree():
     return degree_salary_for_all_unis_df
 
 
+def write_median_salary_data():
+    salaries = get_median_salary_by_uni_degree()
+    salaries.rename(columns={'name': 'degree'}, inplace=True)
+    salaries.rename(columns={'percentile50': 'median_entry_salary'}, inplace=True)
+
+    salaries[['university', 'degree', 'median_entry_salary']].to_csv('median_entry_salary_by_degree.csv', index=False)
+
+
+
+
 
